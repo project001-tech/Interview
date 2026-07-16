@@ -430,7 +430,8 @@ async function simpanData(){
     const kehadiran = document.querySelector("input[name='hadir']:checked").value;
     const hasil_rekrutmen = document.getElementById("hasil").value;
     const note = document.getElementById("note").value.trim();
-
+    const usiaValue = Number(document.getElementById("usia").value);
+    const domisiliValue = document.getElementById("domisili").value.trim();
     // VALIDASI
     if(kandidat_id==""){
         alert("Silakan pilih Kandidat.");
@@ -468,18 +469,15 @@ if(sudahAda){
     btn.disabled=true;
     btn.innerHTML="Menyimpan...";
 
-   // INSERT KE SUPABASE
-const {error}=await db
-.from("report_interview")
 .insert([{
 
     kandidat_id:Number(kandidat_id),
 
     interviewer_id:Number(interviewer_id),
 
-    usia:Number(usia),
+    usia:usiaValue,
 
-    domisili:domisili,
+    domisili:domisiliValue,
 
     tanggal_interview:tanggal_interview,
 
@@ -490,7 +488,6 @@ const {error}=await db
     note:note
 
 }]);
-
     if(error){
 
         alert("Gagal menyimpan.\n\n"+error.message);
