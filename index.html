@@ -192,17 +192,14 @@ grid-template-columns:1fr;
 </div>
 
 
+<div class="form-group">
+<label>Usia</label>
+<input type="number" id="usia" placeholder="Masukkan usia">
+</div>
 
-<div class="info">
-
-<span>Usia</span>
-
-<span id="usia">-</span>
-
-<span>Domisili</span>
-
-<span id="domisili">-</span>
-
+<div class="form-group">
+<label>Domisili</label>
+<input type="text" id="domisili" placeholder="Masukkan domisili">
 </div>
 
 
@@ -308,12 +305,11 @@ placeholder="Masukkan catatan hasil interview..."></textarea>
 
 </button>
 
-
-
-<div
-class="success"
-id="success">
-
+const usia = document.getElementById("usia").value;
+const domisili = document.getElementById("domisili").value;
+<div class="success" id="success">
+    ✅ Data berhasil disimpan
+</div>
 
 <script>
 
@@ -422,32 +418,6 @@ ${item.nama}
 
 loadInterviewer();
 
-
-//====================================================
-// TAMPILKAN DATA KANDIDAT
-//====================================================
-
-kandidat.addEventListener("change",()=>{
-
-const id=Number(kandidat.value);
-
-const data=kandidatList.find(x=>x.id===id);
-
-if(!data){
-
-usia.innerHTML="-";
-domisili.innerHTML="-";
-return;
-
-}
-
-usia.innerHTML=data.usia ?? "-";
-
-domisili.innerHTML=data.domisili ?? "-";
-
-});
-
-
 //====================================================
 // SIMPAN DATA
 //====================================================
@@ -500,24 +470,28 @@ if(sudahAda){
     btn.disabled=true;
     btn.innerHTML="Menyimpan...";
 
-    // INSERT KE SUPABASE
-    const {error}=await db
-    .from("report_interview")
-    .insert([{
+   // INSERT KE SUPABASE
+const {error}=await db
+.from("report_interview")
+.insert([{
 
-        kandidat_id:Number(kandidat_id),
+    kandidat_id:Number(kandidat_id),
 
-        interviewer_id:Number(interviewer_id),
+    interviewer_id:Number(interviewer_id),
 
-        tanggal_interview:tanggal_interview,
+    usia:Number(usia),
 
-        kehadiran:kehadiran,
+    domisili:domisili,
 
-        hasil_rekrutmen:hasil_rekrutmen,
+    tanggal_interview:tanggal_interview,
 
-        note:note
+    kehadiran:kehadiran,
 
-    }]);
+    hasil_rekrutmen:hasil_rekrutmen,
+
+    note:note
+
+}]);
 
     if(error){
 
@@ -547,6 +521,9 @@ if(sudahAda){
     document.getElementById("hasil").value="";
 
     document.getElementById("note").value="";
+
+    const usia = document.getElementById("usia").value;
+const domisili = document.getElementById("domisili").value.trim();
 
     tanggal.value=new Date().toISOString().split("T")[0];
 
